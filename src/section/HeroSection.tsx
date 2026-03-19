@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import articleSideImage from "../assets/article_side_image.png"
+import articleSideImage from "../../public/article_side_image.png"
 function HeroSection() {
     return (
         <div className="w-full flex items-center justify-center hero-background-gradient relative pt-36">

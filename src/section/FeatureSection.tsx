@@ -1,13 +1,22 @@
 import { VscVr } from "react-icons/vsc";
-import firstImage from "../assets/first_image.jpg";
-import secondImage from "../assets/second_image.jpg";
-import thirdImage from "../assets/third_image.png";
-import modelImage2 from "../assets/model3.png"
+import firstImage from "../../public/first_image.jpg";
+import secondImage from "../../public/second_image.jpg";
+import thirdImage from "../../public/third_image.png";
+import modelImage2 from "../../public/model3.png"
 import { HiOutlineCursorArrowRays } from "react-icons/hi2";
 import { TbClock24 } from "react-icons/tb";
 import { GiDeliveryDrone } from "react-icons/gi";
 import { TfiVideoCamera } from "react-icons/tfi";
 import { BsFullscreen } from "react-icons/bs";
+// import ShowCase from "@/components/ShowCase";
+import { motion } from "motion/react"
+// import { useRef } from "react";
+
+import { useMediaQuery } from "react-responsive";
+import gsap from "gsap";
+import { useGSAP } from '@gsap/react';
+import { useScroll, useTransform, useSpring, useMotionTemplate } from "framer-motion";
+import { useRef } from "react";
 
 const cardsData = [
     {
@@ -56,6 +65,57 @@ const featuresGrid = [
 
 
 function FeatureSection() {
+    const isTablet = useMediaQuery({
+        query: '(max-width: 1024px)'
+    })
+
+    const ref = useRef(null);
+
+    const { scrollYProgress } = useScroll({
+        target: ref
+    });
+
+    const maskSize = useTransform(
+        scrollYProgress,
+        [1, 0],
+        [28800, 800]
+    );
+
+
+
+    const maskSizeValue = useMotionTemplate`${maskSize}px`;
+
+    // VIDEO FADE
+    // const videoOpacity = useTransform(
+    //     scrollYProgress,
+    //     [0, 0.5, 0.7],
+    //     [1, 1, 0]
+    // );
+
+    // // SLIGHT ZOOM (cinematic feel)
+    // const scale = useTransform(
+    //     scrollYProgress,
+    //     [0, 1],
+    //     [1, 1.1]
+    // );
+
+    useGSAP(() => {
+        if (!isTablet) {
+            const timeLine = gsap.timeline({
+                scrollTrigger: {
+                    trigger: '#showcase',
+                    start: 'top top',
+                    end: 'bottom top',
+                    scrub: true,
+                    pin: true
+                }
+            })
+            timeLine.to('.mask img', {
+                transform: 'scale(1.1)'
+            })
+        }
+    }, [isTablet])
+
     return (
         <div className="center-center relative flex-col">
             {/* headers */}
@@ -110,9 +170,71 @@ function FeatureSection() {
                 </div>
             </div>
 
+            {/* showcase  */}
+            {/* <div
+                className="w-full bg-white h-[300vh] mt-10"
+                ref={ref}
+                id="showcase">
+                <motion.video
+                    src="/videomavc.mp4"
+                    className="absolute w-full h-[100vh] object-cover z-10"
+                    autoPlay
+                    loop
+                    muted
+                    style={{ opacity: videoOpactiy }}
+                />
+
+                <motion.video
+                    src="/videomavc.mp4"
+                    className="absolute w-full h-full object-cover z-20"
+                    autoPlay
+                    loop
+                    muted
+                    style={{
+                        WebkitMaskImage: "url('/mask.svg')",
+                        WebkitMaskRepeat: "no-repeat",
+                        WebkitMaskPosition: useMotionTemplate`center ${maskPostion}px`,
+                        WebkitMaskSize: useMotionTemplate`${maskSize}px`,
+
+                        maskImage: "url('/mask.svg')",
+                        maskRepeat: "no-repeat",
+                        maskPosition: useMotionTemplate`center ${maskPostion}px`,
+                        maskSize: useMotionTemplate`${maskSize}px`
+                    }}
+                />
+            </div> */}
+            {/* <ShowCase></ShowCase> */}
+
+            <section
+                ref={ref}
+                className="w-full h-[80vh] mt-100 bg-black overflow-y-scroll"
+            >
+                <div className="h-[100vh]">
+
+                    <motion.video
+                        src="/videomavc.mp4"
+                        autoPlay
+                        loop
+                        muted
+                        className="w-full h-full object-cover"
+                        style={{
+                            WebkitMaskImage: "url('/mask.svg')",
+                            WebkitMaskRepeat: "no-repeat",
+                            WebkitMaskPosition: "center",
+                            WebkitMaskSize: maskSizeValue,
+
+                            maskImage: "url('/mask.svg')",
+                            maskRepeat: "no-repeat",
+                            maskPosition: "center",
+                            maskSize: maskSizeValue
+                        }}
+                    />
+
+                </div>
+            </section>
 
             {/* feature grid */}
-            <div className="w-[90%] md:mt-12 lg:mt-24 border-x-1 border-y-1 border-x-[rgba(255,255,255,.5)] border-y-[rgba(255,255,255,.15)] px-6 py-6 flex flex-wrap gap-6 center-center bg-[linear-gradient(90deg,_rgba(0,75,174,.75)_0%,_rgba(0,0,0,1)_5%,_rgba(0,0,0,1)_95%,_rgba(0,_75,_174,.75)_100%)] rounded-xl">
+            <div id="feature_grid" className="w-[90%] md:mt-12 lg:mt-24 border-x-1 border-y-1 border-x-[rgba(255,255,255,.5)] border-y-[rgba(255,255,255,.15)] px-6 py-6 flex flex-wrap gap-6 center-center bg-[linear-gradient(90deg,_rgba(0,75,174,.75)_0%,_rgba(0,0,0,1)_5%,_rgba(0,0,0,1)_95%,_rgba(0,_75,_174,.75)_100%)] rounded-xl">
                 {featuresGrid.map((item, index) => {
                     const Icon = item.icon;
                     return (

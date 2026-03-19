@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button"
-import sideImage1 from "../assets/sideImage1 (1).png"
-import sideImage2 from "../assets/sideImage2.png"
+import sideImage1 from "../../public/sideImage1 (1).png"
+import sideImage2 from "../../public/sideImage2.png"
 
 function ShoppingSection() {
     return (
