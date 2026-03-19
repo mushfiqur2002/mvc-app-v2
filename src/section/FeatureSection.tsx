@@ -15,7 +15,7 @@ import { motion } from "motion/react"
 import { useMediaQuery } from "react-responsive";
 import gsap from "gsap";
 import { useGSAP } from '@gsap/react';
-import { useScroll, useTransform, useSpring, useMotionTemplate } from "framer-motion";
+import { useScroll, useTransform, useMotionTemplate } from "framer-motion";
 import { useRef } from "react";
 
 const cardsData = [
